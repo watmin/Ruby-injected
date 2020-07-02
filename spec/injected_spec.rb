@@ -32,6 +32,10 @@ class SpecInterface7 < Injected::Interface
   interface_method(:test, :arg, kwarg: nil) {}
 end
 
+class SpecInterface8 < Injected::Interface
+  interface_method(:test, :arg1, :arg2)
+end
+
 RSpec.describe Injected do
   context 'when failing to implement interface metohd' do
     it 'raises an error' do
@@ -256,6 +260,65 @@ RSpec.describe Injected do
       instance = injector.instance(service)
 
       expect(instance.test('test')).to eq [:test, true]
+    end
+  end
+
+  context 'when implementing incorrect positional arguments' do
+    it 'raises an error' do
+      expect do
+        Class.new(Injected::Implementation) do
+          implements SpecInterface1
+
+          def test(arg)
+            arg
+          end
+        end
+      end.to raise_error(ArgumentError)
+    end
+  end
+
+  context 'when injecting multiple dependencies' do
+    it 'raises no errors' do
+      implemented0 = Class.new(Injected::Implementation) do
+        implements SpecInterface0
+
+        def test(arg)
+          arg
+        end
+      end
+
+      implemented1 = Class.new(Injected::Implementation) do
+        implements SpecInterface1
+
+        def test(arg1, arg2)
+          [arg1, arg2]
+        end
+      end
+
+      service = Class.new(Injected::Instance) do
+        injected(SpecInterface0, :dependency0)
+        injected(SpecInterface1, :dependency1)
+
+        def test0(arg)
+          dependency0.test(arg)
+        end
+
+        def test1(arg1, arg2)
+          dependency1.test(arg1, arg2)
+        end
+      end
+
+      injector = Injected::Injector.new(
+        SpecInterface0 => implemented0,
+        SpecInterface1 => implemented1
+      )
+
+      instance = injector.instance(service)
+
+      aggregate_failures do
+        expect(instance.test0(:test)).to be :test
+        expect(instance.test1(:test1, :test2)).to eq %i[test1 test2]
+      end
     end
   end
 end

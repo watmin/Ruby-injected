@@ -9,6 +9,8 @@ require 'rubocop/rake_task'
 # require 'yardstick/rake/verify'
 
 def empty_directory(directory)
+  return unless File.exist?(directory)
+
   FileUtils.remove_entry(directory)
   FileUtils.mkdir(directory)
 end

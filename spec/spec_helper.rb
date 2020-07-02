@@ -1,7 +1,30 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
+require 'coveralls'
+require 'simplecov'
+require 'simplecov-cobertura'
 require 'pry'
+
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
+  [
+    SimpleCov::Formatter::HTMLFormatter,
+    SimpleCov::Formatter::CoberturaFormatter,
+    Coveralls::SimpleCov::Formatter
+  ]
+)
+
+SimpleCov.start do
+  refuse_coverage_drop
+
+  add_filter('/spec/')
+
+  minimum_coverage(95)
+  coverage_dir('out/coverage')
+
+  enable_coverage :branch
+end
+
 require 'injected'
 
 RSpec.configure do |config|
