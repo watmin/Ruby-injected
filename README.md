@@ -48,7 +48,7 @@ injector = Injected::Injector.new(
 )
 
 demo_service = injector.instance(DemoService)
-demo_servier.demo #=> "arg1: 1; arg2: 2; arg3: default"
+demo_service.demo #=> "arg1: 1; arg2: 2; arg3: default"
 
 # inside demo_service
 
