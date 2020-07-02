@@ -38,4 +38,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'simplecov-cobertura'
   # spec.add_development_dependency 'yard'
   # spec.add_development_dependency 'yardstick'
+
+  spec.add_dependency 'rest-client', '>= 1.8.0'
 end
