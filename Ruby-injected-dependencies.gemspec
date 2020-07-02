@@ -5,13 +5,13 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'injected/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'injected'
+  spec.name          = 'injected-dependencies'
   spec.version       = Injected::VERSION
   spec.authors       = 'John Shields'
   spec.email         = 'john@shields.wtf'
 
   spec.summary       = 'Guice inspired dependency injection'
-  spec.homepage      = 'https://github.com/watmin/ruby-injected'
+  spec.homepage      = 'https://github.com/watmin/Ruby-injected-dependencies'
   spec.license       = 'MIT'
   spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
 
